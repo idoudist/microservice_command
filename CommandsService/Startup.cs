@@ -1,7 +1,10 @@
+using CommandsService.Data;
+using CommandsService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +31,10 @@ namespace CommandsService
         {
 
             services.AddControllers();
+            // adding database configuration 
+            services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+            // injecting repos and services
+            services.AddScoped<ICommandRepo, CommandRepo>();
             // injecting automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
