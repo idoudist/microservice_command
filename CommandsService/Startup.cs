@@ -28,6 +28,8 @@ namespace CommandsService
         {
 
             services.AddControllers();
+            // injecting automapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommandsService", Version = "v1" });
