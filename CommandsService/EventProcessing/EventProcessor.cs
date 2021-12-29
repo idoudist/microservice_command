@@ -29,7 +29,7 @@ namespace CommandsService.EventProcessing
             switch (eventType)
             {
                 case EventType.PlatformPublished:
-                    //To Do
+                    addPlatform(message);
                     break;
                 default:
                     break;
@@ -43,7 +43,7 @@ namespace CommandsService.EventProcessing
             switch(eventType.Event)
             {
                 case "platform_Published":
-                    Console.WriteLine("Platform Published Event Detected");
+                    Console.WriteLine("--> Platform Published Event Detected");
                     return EventType.PlatformPublished;
                 default:
                     Console.WriteLine("Could not determine event Type");
@@ -69,6 +69,7 @@ namespace CommandsService.EventProcessing
                     {
                         commandRepo.CreatePlatform(platform);
                         commandRepo.SaveChanges();
+                        Console.WriteLine("--> Platform Added");
                     } else
                     {
                         Console.WriteLine("--> Platform Already Exist");

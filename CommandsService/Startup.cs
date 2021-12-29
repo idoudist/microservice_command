@@ -1,3 +1,4 @@
+using CommandsService.AsyncDataServices;
 using CommandsService.Data;
 using CommandsService.EventProcessing;
 using CommandsService.Repositories;
@@ -34,9 +35,15 @@ namespace CommandsService
             services.AddControllers();
             // adding database configuration 
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
-            // injecting repos and services
+            
+            #region depencies injection for services
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddScoped<ICommandRepo, CommandRepo>();
+            //we used hosted service becaused we could not inject directly using interfaces
+            //it contain background jobs
+            services.AddHostedService<MessageBusSubscriber>();
+            #endregion
+
             // injecting automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
