@@ -1,4 +1,5 @@
 using CommandsService.Data;
+using CommandsService.EventProcessing;
 using CommandsService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace CommandsService
             // adding database configuration 
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
             // injecting repos and services
+            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddScoped<ICommandRepo, CommandRepo>();
             // injecting automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
